@@ -16,34 +16,45 @@ class Shippo_RatesService extends BaseApplicationComponent
 		$this->apiKey = '*****';
 	}
 
+	/**
+	 * Gets the rates for a provided order from the Shippo API.
+	 *
+	 * TODO: Allow the 'From' Address to be defined in the plugin config.
+	 * TODO: Allow product sizing & weight information to be passed to Shippo.
+	 *
+	 * @param  {OrderModel} | $order The current order being processed
+	 * @return {array} | The rates for the order being processed
+	 */
 	public function getRates($order)
 	{
 		Shippo::setApiKey($this->apiKey);
 
+		$shippingAddress = $order->shippingAddress;
+
 		$from_address = [
 			'object_purpose' => 'PURCHASE',
-			'name' => 'Mr Hippo',
-			'company' => 'Shippo',
-			'street1' => '215 Clayton St.',
-			'city' => 'San Francisco',
-			'state' => 'CA',
-			'zip' => '94117',
+			'name' => 'Default Name',
+			'company' => 'Default Company',
+			'street1' => '1600 Pennsylvania Ave NW',
+			'city' => 'Washington',
+			'state' => 'DC',
+			'zip' => '20500',
 			'country' => 'US',
-			'phone' => '+1 555 341 9393',
-			'email' => 'mr-hippo@goshipppo.com',
+			'phone' => '+1 234 567 8901',
+			'email' => 'hello@taylordaughtry.com'
 		];
 
 		$to_address = [
 			'object_purpose' => 'PURCHASE',
-			'name' => 'Ms Hippo',
-			'company' => 'San Diego Zoo',
-			'street1' => '2920 Zoo Drive',
-			'city' => 'San Diego',
-			'state' => 'CA',
-			'zip' => '92101',
-			'country' => 'US',
-			'phone' => '+1 555 341 9393',
-			'email' => 'ms-hippo@goshipppo.com',
+			'name' => $shippingAddress->firstName . ' ' . $shippingAddress->lastName,
+			'company' => $shippingAddress->businessName,
+			'street1' => $shippingAddress->address1,
+			'city' => $shippingAddress->city,
+			'state' => $shippingAddress->getState()->abbreviation,
+			'zip' => $shippingAddress->zipCode,
+			'country' => $shippingAddress->getCountry()->iso,
+			'phone' => $shippingAddress->phone,
+			'email' => $order->email
 		];
 
 		$parcel = [
@@ -52,7 +63,7 @@ class Shippo_RatesService extends BaseApplicationComponent
 			'height'=> '5',
 			'distance_unit'=> 'in',
 			'weight'=> '2',
-			'mass_unit'=> 'lb',
+			'mass_unit'=> 'lb'
 		];
 
 		$shipment = Shippo_Shipment::create([
@@ -60,7 +71,7 @@ class Shippo_RatesService extends BaseApplicationComponent
 			'address_from'=> $from_address,
 			'address_to'=> $to_address,
 			'parcel'=> $parcel,
-			'async'=> false,
+			'async'=> false
 		]);
 
 		return $shipment['rates_list'];

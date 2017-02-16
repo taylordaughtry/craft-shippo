@@ -44,7 +44,8 @@ class ShippoPlugin extends BasePlugin
 
 	public function commerce_registerShippingMethods($order = null)
 	{
-		$shippingMethods = [];
+		if ($order && $order->shippingAddress) {
+			$shippingMethods = [];
 
 			$rates = craft()->shippo_rates->getRates($order);
 
@@ -53,5 +54,6 @@ class ShippoPlugin extends BasePlugin
 			}
 
 			return $shippingMethods;
+		}
 	}
 }
