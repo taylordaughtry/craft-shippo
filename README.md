@@ -1,2 +1,4 @@
-# craft-shippo
-Use your Shippo account to get live rates for Craft Commerce.
+# Shippo Live Rates
+
+This plugin adds Live Rates pulled from Shippo; completely integrated into the
+Commerce checkout process.
