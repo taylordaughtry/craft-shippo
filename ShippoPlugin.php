@@ -49,6 +49,21 @@ class ShippoPlugin extends BasePlugin
 				AttributeType::String,
 				'default' => '',
 				'required' => true
+			],
+			'fromAddress' => [
+				AttributeType::Mixed,
+				'default' => [
+					'name' => 'Default Name',
+					'company' => craft()->getSiteName(),
+					'street1' => '1600 Pennsylvania Ave NW',
+					'city' => 'Washington',
+					'state' => 'DC',
+					'zip' => '20500',
+					'country' => 'US',
+					'phone' => '+1 234 567 8901',
+					'email' => craft()->email->settings['emailAddress']
+				],
+				'required' => true
 			]
 		];
 	}

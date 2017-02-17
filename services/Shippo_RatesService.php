@@ -10,10 +10,13 @@ use \Shippo_Shipment as Shippo_Shipment;
 class Shippo_RatesService extends BaseApplicationComponent
 {
 	private $settings;
+	private $address;
 
 	public function __construct()
 	{
 		$this->settings = craft()->plugins->getPlugin('Shippo')->getSettings();
+
+		$this->address = $this->settings->fromAddress;
 	}
 
 	/**
@@ -33,15 +36,15 @@ class Shippo_RatesService extends BaseApplicationComponent
 
 		$from_address = [
 			'object_purpose' => 'PURCHASE',
-			'name' => 'Default Name',
-			'company' => 'Default Company',
-			'street1' => '1600 Pennsylvania Ave NW',
-			'city' => 'Washington',
-			'state' => 'DC',
-			'zip' => '20500',
-			'country' => 'US',
-			'phone' => '+1 234 567 8901',
-			'email' => 'hello@taylordaughtry.com'
+			'name' => $this->address['name'],
+			'company' => $this->address['company'],
+			'street1' => $this->address['street1'],
+			'city' => $this->address['city'],
+			'state' => $this->address['state'],
+			'zip' => $this->address['zip'],
+			'country' => $this->address['country'],
+			'phone' => $this->address['phone'],
+			'email' => $this->address['email']
 		];
 
 		$to_address = [
