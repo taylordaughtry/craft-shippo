@@ -37,6 +37,29 @@ class ShippoPlugin extends BasePlugin
 		return $this->_developerUrl;
 	}
 
+	public function hasSettings()
+	{
+		return true;
+	}
+
+	public function defineSettings()
+	{
+		return [
+			'apiKey' => [
+				AttributeType::String,
+				'default' => '',
+				'required' => true
+			]
+		];
+	}
+
+	public function getSettingsHtml()
+	{
+		return craft()->templates->render('shippo/Shippo_Settings', [
+			'settings' => $this->getSettings()
+		]);
+	}
+
 	public function init()
 	{
 		require CRAFT_PLUGINS_PATH . 'shippo/vendor/autoload.php';

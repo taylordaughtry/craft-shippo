@@ -9,11 +9,11 @@ use \Shippo_Shipment as Shippo_Shipment;
 
 class Shippo_RatesService extends BaseApplicationComponent
 {
-	private $apiKey;
+	private $settings;
 
 	public function __construct()
 	{
-		$this->apiKey = '*****';
+		$this->settings = craft()->plugins->getPlugin('Shippo')->getSettings();
 	}
 
 	/**
@@ -27,7 +27,7 @@ class Shippo_RatesService extends BaseApplicationComponent
 	 */
 	public function getRates($order)
 	{
-		Shippo::setApiKey($this->apiKey);
+		Shippo::setApiKey($this->settings->apiKey);
 
 		$shippingAddress = $order->shippingAddress;
 

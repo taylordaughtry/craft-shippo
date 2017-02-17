@@ -1,0 +1,10 @@
+{% import "_includes/forms" as forms %}
+
+{{
+	forms.textField({
+		label: 'Shippo API Key',
+		instructions: 'Paste your key here to enable Shippo Live Rates.',
+		name: 'apiKey',
+		value: settings['apiKey']
+	})
+}}
