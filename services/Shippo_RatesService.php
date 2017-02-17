@@ -74,6 +74,8 @@ class Shippo_RatesService extends BaseApplicationComponent
 			'async'=> false
 		]);
 
+		ShippoPlugin::log(json_encode($shipment->__toString()), LogLevel::Info);
+
 		return $shipment['rates_list'];
 	}
 }
